@@ -1,0 +1,10 @@
+{
+  "name": "aoc",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vtimbuc/aoc.git"
+  },
+  "author": "Valeriu Timbuc",
+  "type": "module"
+}
