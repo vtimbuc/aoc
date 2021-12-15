@@ -21,7 +21,7 @@ console.log('Part One:', increases)
 // Part Two
 increases = 0
 
-const calculateWindow = (i) => data[i] + data[i + 1] + data[i + 2]
+const calculateWindow = (i: number) => data[i] + data[i + 1] + data[i + 2]
 
 let previousWindow = calculateWindow(0)
 

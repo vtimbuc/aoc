@@ -4,7 +4,7 @@ import util from 'util'
 
 const readFile = util.promisify(fs.readFile)
 
-export const getInput = (year, day) => {
+export const getInput = (year: number, day: number) => {
   const file = path.resolve(year.toString(), day.toString(), 'input.txt')
 
   return readFile(file, 'utf-8')
