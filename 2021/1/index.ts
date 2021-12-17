@@ -8,18 +8,18 @@ const data = input
   .map((value) => parseInt(value))
 
 // Part One
-let increases = 0
+let count = 0
 
 for (let i = 1; i < data.length; i++) {
   if (data[i] > data[i - 1]) {
-    increases++
+    count++
   }
 }
 
-console.log('Part One:', increases)
+console.log('Part One:', count)
 
 // Part Two
-increases = 0
+count = 0
 
 const calculateWindow = (i: number) => data[i] + data[i + 1] + data[i + 2]
 
@@ -33,10 +33,10 @@ for (let i = 1; i < data.length; i++) {
   const currentWindow = calculateWindow(i)
 
   if (currentWindow > previousWindow) {
-    increases++
+    count++
   }
 
   previousWindow = currentWindow
 }
 
-console.log('Part Two:', increases)
+console.log('Part Two:', count)

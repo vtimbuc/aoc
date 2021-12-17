@@ -2,10 +2,33 @@ import { getInput } from '../../helpers/getInput.js'
 
 const input = await getInput(2021, 3)
 
-const data = input
-  .trim()
-  .split('\n')
-  .map((line) => line.split(''))
+const data = input.trim().split('\n')
+
+type Bit = '0' | '1'
+
+const getTheMostCommonBit = (bits: string) => {
+  const count = { '0': 0, '1': 0 }
+
+  for (let i = 0; i < bits.length; i++) {
+    const bit = bits[i] as Bit
+
+    if (++count[bit] > bits.length / 2) {
+      return bit
+    }
+  }
+
+  return null
+}
+
+const invertBits = (bits: string) => {
+  let invertedBits = ''
+
+  for (let i = 0; i < bits.length; i++) {
+    invertedBits += bits[i] === '0' ? '1' : '0'
+  }
+
+  return invertedBits
+}
 
 // Part One
 const gamaRate = data
@@ -19,100 +42,46 @@ const gamaRate = data
     }
 
     return acc
-  }, [])
-  .reduce((acc, curr) => {
-    const numbers = curr.split('')
-    const count = { zero: 0, one: 0 }
+  }, [] as string[])
+  .map((bits) => getTheMostCommonBit(bits))
+  .join('')
 
-    for (let i = 0; i < numbers.length; i++) {
-      switch (numbers[i]) {
-        case '0':
-          count.zero++
-          break
-        case '1':
-          count.one++
-          break
-      }
-    }
+const epsilonRate = invertBits(gamaRate)
 
-    if (count.zero > count.one) {
-      return (acc += '0')
-    }
+let result = parseInt(gamaRate, 2) * parseInt(epsilonRate, 2)
 
-    return (acc += '1')
-  }, '')
-
-const epsilonRate = gamaRate.split('').reduce((acc, curr) => {
-  switch (curr) {
-    case '0':
-      return (acc += '1')
-
-    case '1':
-      return (acc += '0')
-
-    default:
-      return (acc += '')
-  }
-}, '')
-
-const powerConsumption = parseInt(gamaRate, 2) * parseInt(epsilonRate, 2)
-
-console.log('Part One:', powerConsumption)
+console.log('Part One:', result)
 
 // Part Two
-let oxygenGeneratorRating = data
-let co2ScrubberRating = data
-
-for (let i = 0; i < oxygenGeneratorRating[0].length; i++) {
-  let count = { zero: 0, one: 0 }
-
-  for (let j = 0; j < oxygenGeneratorRating.length; j++) {
-    switch (oxygenGeneratorRating[j][i]) {
-      case '0':
-        count.zero++
-        break
-      case '1':
-        count.one++
-        break
+const getRating = (arr: string[], byLeastCommonBit?: true) => {
+  for (let i = 0; i < arr[0].length; i++) {
+    if (arr.length <= 1) {
+      break
     }
-  }
 
-  let filterBy = count.one >= count.zero ? '1' : '0'
+    let bits = ''
 
-  if (oxygenGeneratorRating.length > 1) {
-    oxygenGeneratorRating = oxygenGeneratorRating.filter(
-      (line) => line[i] === filterBy
-    )
-  }
-
-  count = { zero: 0, one: 0 }
-
-  for (let j = 0; j < co2ScrubberRating.length; j++) {
-    switch (co2ScrubberRating[j][i]) {
-      case '0':
-        count.zero++
-        break
-      case '1':
-        count.one++
-        break
+    for (let j = 0; j < arr.length; j++) {
+      bits += arr[j][i]
     }
+
+    let defaultBit = '1'
+    let bit = getTheMostCommonBit(bits)
+
+    if (byLeastCommonBit) {
+      defaultBit = '0'
+      bit = bit ? (invertBits(bit) as Bit) : bit
+    }
+
+    arr = arr.filter((bits) => bits[i] === (bit === null ? defaultBit : bit))
   }
 
-  filterBy = count.zero <= count.one ? '0' : '1'
-
-  if (co2ScrubberRating.length > 1) {
-    co2ScrubberRating = co2ScrubberRating.filter((line) => line[i] === filterBy)
-  }
+  return arr[0]
 }
 
-const oxygenGeneratorRatingDecimal = parseInt(
-  oxygenGeneratorRating[0].join(''),
-  2
-)
+const o2Rating = getRating(data)
+const co2Rating = getRating(data, true)
 
-const co2ScrubberRatingDecimal = parseInt(co2ScrubberRating[0].join(''), 2)
+result = parseInt(o2Rating, 2) * parseInt(co2Rating, 2)
 
-const lifeSupportRating =
-  oxygenGeneratorRatingDecimal * co2ScrubberRatingDecimal
-
-console.log('Part Two:', lifeSupportRating)
+console.log('Part Two:', result)

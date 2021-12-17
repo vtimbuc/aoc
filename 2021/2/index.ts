@@ -31,9 +31,9 @@ for (let i = 0; i < data.length; i++) {
   }
 }
 
-let position = horizontalPosition * depth
+let result = horizontalPosition * depth
 
-console.log('Part One:', position)
+console.log('Part One:', result)
 
 // Part Two
 horizontalPosition = 0
@@ -57,6 +57,6 @@ for (let i = 0; i < data.length; i++) {
   }
 }
 
-position = horizontalPosition * depth
+result = horizontalPosition * depth
 
-console.log('Part Two:', position)
+console.log('Part Two:', result)
