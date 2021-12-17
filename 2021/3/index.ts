@@ -53,7 +53,7 @@ let result = parseInt(gamaRate, 2) * parseInt(epsilonRate, 2)
 console.log('Part One:', result)
 
 // Part Two
-const getRating = (arr: string[], byLeastCommonBit?: true) => {
+const getRating = (arr: string[], byLeastCommonBit?: boolean) => {
   for (let i = 0; i < arr[0].length; i++) {
     if (arr.length <= 1) {
       break
