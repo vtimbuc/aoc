@@ -8,7 +8,7 @@ const data = input
   .map((line) => {
     const [direction, amount] = line.split(' ')
 
-    return { direction, amount: parseInt(amount) }
+    return { direction, amount: parseInt(amount, 10) }
   })
 
 // Part One

@@ -5,7 +5,7 @@ const input = await getInput(2021, 1)
 const data = input
   .trim()
   .split('\n')
-  .map((value) => parseInt(value))
+  .map((value) => parseInt(value, 10))
 
 // Part One
 let count = 0
